@@ -1,157 +1,223 @@
 <?php 
+session_start();
 
 $conn = mysqli_connect("localhost", "root", "", "mohima");
+if($conn === false){
+  die("Connection Error");
+}
+
+if(isset($_POST['submit'])) {
+$query = mysqli_query($conn,
+"INSERT INTO office duty SET 
+  emp_code ='". $_POST["emp_code"] . "' ,
+  shift_id ='". $_POST["shift_id"] . "' ,
+  date ='". $_POST["date"] .  "' ,
+  shift_id	 ='". $_POST["shift_id"]. "' ,
+  time_from ='". $_POST["time_from"] . "' ,
+  time_to ='". $_POST["time_to"]."'	 ");
+
+  $row = mysqli_fetch_array($query);
+if(is_array($row)) {
+$_SESSION["usertype"] = $row['usertype'];
+$_SESSION["username"] = $row['username'];
+}
 
 ?>
 
+<?php
+}
+?>
+<?php
+
+
+
+?>
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Page</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="dashboard.css" />
-  </head>
-  <body>
-   
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="homepage.css">
 
-    <nav class="custom_nav topnav d-flex justify-content-between py-2 px-5">
-      
-      <div class="search-container">
-        <form action="/action_page.php">
-          <input type="text" placeholder="Filter.." name="search" />
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
-      </div>
-    </nav>
+</head>
+<body>
 
+<header>
+	
+<nav>
+	
+	<div class="logo"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUFsbtuOubPinh6Zxxq7AOuR22chrXZ3TXrsYiidv9tQILJxW4IiO98D1XOAOwloAP1Nc&usqp=CAU" class="logo"style="vertical-align:middle"  >
+    </div>
+	<div class="menu">
+		<a href="" style="font-size:20px">Home</a>	
+		
+		<a href="">Employee Management</a>		
+		<a href="cell.php">Cell</a>
+        <a href="shift.php">Shift</a>
+		<a href="logout.php">Log out</a>
+	</div>
+</nav>
+
+
+	<main>
+		<section>
     
+     
+       <div class="container-fluid px-4">
+       <div class="row at-4">
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-header">
+                       <h1>
+                          Employee Ordering
+                           <p class="btn-btn-primary float-end"> <?= date('F'); ?></p>
+                       </h1>
+                   </div>
 
-      <div class="dashboard flex-grow-1">
-        <div class="dash_headline d-flex bg-blue pb-5">
-          
-          
-        </div>
-        <div class="container-fluid px-4">
-        <div class="row at-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h1>
-                           Employee Ordering
-                            <p class="btn-btn-primary float-end">Current Month: <?= date('m'); ?></p>
-                        </h1>
-                    </div>
+                   <div id="txtHint"></div>
+               <div class="card-body">
+               <form action="new.php" method="POST">
+               <div class="table-responsive">
+           
+               <table class="table table-bordered table-striped">
+               
+               <thead>
+                   <tr>
+                       <th>Name</th>
+                       <th>ID</th>
+                       <th>Designation</th>
+                       <th>Cell</th>
+                       <th>Shift</th>
+                       <th>Date</th>
+                       <th>Time</th>
+                       <th>Edit</th>
+
+                   </tr>
+               </thead>
+               <tbody>
+
+               
+                               <tr>
+
+                              
+                               
+                               <td>
+                               <?php
+
+                          $result = mysqli_query($conn, "SELECT * FROM employee");
+                           ?>
+                          <select name="dynamic_data">
+                          <?php
+                            $i=0;
+                            while($row = mysqli_fetch_array($result)) {
+                            ?>
+                               <option value="<?=$row["name"];?>"><?=$row["name"];?></option>
+
+                          <?php
+                            $i++;}
+                               ?>
+                         </select>
+                              </td>
+                               <td>
+                               
+                              
+                              </td>
+                                   <td></td>
+
+                                   <td> <?php
+
+                        $result = mysqli_query($conn, "SELECT * FROM cell");
+                        ?>
+                     <select name="dynamic_data">
+                       <?php
+                     $i=0;
+                   while($row = mysqli_fetch_array($result)) {
+                         ?>
+                <option value="<?=$row["cell"];?>"><?=$row["cell"];?></option>
+
+        <?php
+             $i++;
+              }
+               ?>
 
 
-                <div class="card-body">
-        
-                <div class="table-responsive">
-            
-                <table class="table table-bordered table-striped">
-                
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>ID</th>
-                        <th>Designation</th>
-                        <th>Cell</th>
-                        <th>Shift</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Edit</th>
+                </select>
+                                   </td>
+                               
+                                             <td><?php
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                         $check = "SELECT * FROM reg WHERE usertype ='user' ORDER BY username ";
-                         $posts_run = mysqli_query($conn, $check);
+              $result = mysqli_query($conn, "SELECT * FROM shift");
+               ?>
+             <select name="dynamic_data">
+             <?php
+             $i=0;
+              while($row = mysqli_fetch_array($result)) {
+              ?>
+          <option value="<?=$row["shift"];?>"><?=$row["shift"];?></option>
 
-                         if(mysqli_num_rows($posts_run) >0)
-                         {
-                            foreach($posts_run as $post)
-                            {
-                                ?>
-                                <tr>
-                                    <td><?= $post['username'] ?></td>
-                                    <td><?= $post['id'] ?></td>
-                                    <td></td>
-
-                                    <td><select name="cell" id="cell" required>
-						                         	
-                                      <option value="user">Inhouse Software Development Cell</option>
-							                        <option value="admin">Security Cell</option>
-							                        <option value="admin">Network Cell </option>
-						                        </select>
-                                    </td>
-                                
-				                          	<td><select name="Shift" id="Shift" required>
-						                         	
-                                      <option value="user">Day Shift</option>
-							                        <option value="admin">Night Shift</option>
-						                        </select>
-                                    </td>
-                                    <td>
-                                      <input type="date" name="date" class="form-control">
-                                     
-
-                                    </td>
-                                    <td><select name="time" id="time" required>
-						                         	
-                                       <option value="user">10AM-5PM</option>
-                                       <option value="admin">5PM-9PM</option>
-                                     </select>
-                                      
-                                      </td>
-                                    <td>
-                                        <a href="#" class="btn btn-success">Update</a>
-                                    </td>
+             <?php
+              $i++;}
+               ?>
+                    </select>
+                                   </td>
+                                  
+                                   <td>
+                                     <input type="date" name="date" class="form-control">
                                     
-                                </tr>
 
-                                <?php
+                                   </td>
+                                   <td> <?php
 
-                            }
-                         }
-                         else
-                         {
-                    ?>
-                    <tr>
-                        <td colspan="6">No Record Found!</td>
-                    </tr>
-                    <?php 
-                     }
-                    ?>
+                       $result = mysqli_query($conn, "SELECT * FROM shift");
+                          ?>
+                   <select name="dynamic_data">
+                    <?php
+                      $i=0;
+                while($row = mysqli_fetch_array($result)) {
+                  ?>
+           <option value="<?=$row["time"];?>"><?=$row["time"];?></option>
 
-                    <tr>
+               <?php
+                   $i++;}
+                  ?>
+                       </select>
+                                     
+                                     </td>
+                                   <td>
+                                       <a href="#" class="btn btn-success">Update</a>
+                                   </td>
+                                   
+                               </tr>
 
-                    </tr>
+                              
+                  
+                              
+
+                   
 
 
-                </tbody>
-            </table>
-        </div>
-    </div>
-    </div>
- </div>
+               </tbody>
+           </table></div>
+       </div>
+   </div>
+   </div>
 </div>
 </div>
-      </div>
-    </div>
+</div>
+     </div>
+   </div>
+   <button type="submit" class="submit-btn" name="submit">Submit</button>
+                </form>
+ 
+		</section>
+	</main>
 
-    <script src="https://kit.fontawesome.com/605c1f1072.js" crossorigin="anonymous"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-      crossorigin="anonymous"
-    ></script>
+
+</header>
+
+
+   
   </body>
+</html>
+
+</body>
 </html>
