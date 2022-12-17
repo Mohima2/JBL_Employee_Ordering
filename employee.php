@@ -43,7 +43,31 @@ function fill_unit_select_box2($connect)
     <title>Employee</title>
 </head>
 <body>
-<?php include ("header.php"); ?>
+<?php include ("nav.php"); ?>
+
+<div class="container">
+   <form method="post" id="insert_form">
+    <div class="table-repsonsive">
+     <span id="error"></span>
+     <table class="table table-bordered" id="item_table">
+      <tr>
+       <th>Employee ID</th>
+       <th>Name</th>
+       <th>Designation</th>
+       <th>Cell ID </th>
+       <th>User Role</th>
+       <th>Password</th>
+      </tr>
+     </table>
+     <div><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></div>
+    </div>
+   </form>
+  </div>
+  <div align="center">
+      <input type="submit" name="submit" class="btn btn-info" value="Add Employee" />
+     </div>
+
+
 <div class="dashboard flex-grow-1">
 
         <div class="container-fluid px-4">
@@ -92,7 +116,7 @@ function fill_unit_select_box2($connect)
                                     <td>
                                     <?= $post['code'] ?>
                                     </td>
-                                    <td><?= $post['cell'] ?></td>
+                                    <td></td>
                                     <td>
                                         <a href="#" class="btn btn-success">Update</a>
                                     </td>
@@ -124,30 +148,6 @@ function fill_unit_select_box2($connect)
 </div></div></div>
 
 
-</br> </br>
-<div align="center">
-      <input type="submit" name="submit" class="btn btn-info" value="Add Employee" />
-     </div>
-                    </br>
-<div class="container">
-   <form method="post" id="insert_form">
-    <div class="table-repsonsive">
-     <span id="error"></span>
-     <table class="table table-bordered" id="item_table">
-      <tr>
-       <th>Employee ID</th>
-       <th>Name</th>
-       <th>Designation Id</th>
-       <th>Cell ID </th>
-       <th>Password</th>
-      </tr>
-     </table>
-     <div><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></div>
-    </div>
-   </form>
-  </div>
-
-
 
   <script>
 $(document).ready(function(){
@@ -155,12 +155,12 @@ $(document).ready(function(){
  $(document).on('click', '.add', function(){
   var html = '';
   html += '<tr>';
-  html += '<td><input type="text" name="empID[]" class="form-control item_name" /></td>';
-  html += '<td><input type="text" name="name[]" class="form-control item_name" /></td>';
+  html += '<td><input type="text" name="empID[]" class="form-control" /></td>';
+  html += '<td><input type="text" name="name[]" class="form-control" /></td>';
   html += '<td><select name="code[]" class="form-control item_unit"><option value="">Select ID</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
   html += '<td><select name="cell_code[]" class="form-control item_unit"><option value="">Select ID</option><?php echo fill_unit_select_box($connect); ?></select></td>';
   
-  html += '<td><input type="password" name="password[]" class="form-control item_name" /></td>';
+  html += '<td><input type="password" name="password[]" class="form-control" placeholder="0123456" /></td>';
   
   $('#item_table').append(html);
  });
