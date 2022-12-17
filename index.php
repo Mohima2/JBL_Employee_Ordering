@@ -36,6 +36,10 @@ function fill_unit_select_box2($connect)
   <title>Office Duty</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="jquery-ui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="timepicker.css">
+  <script type="text/javascript" src="timepicker.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  </head>
  <body>
@@ -59,6 +63,15 @@ function fill_unit_select_box2($connect)
        <th>Time To</th>
       
       </tr>
+      <tr>
+      <td><select name="empID[]" class="form-control item_unit"><option value="">Select ID</option></select></td>
+        <td><select name="shiftID[]" class="form-control item_unit"><option value="">Select Shift</option></select></td>
+        <td><input type="text" name="Datepicker[]" id="datepicker" class="form-control item_name" /></td>
+      
+        <td><input id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"  onclick="showpickers('timepkr',12)" ><i class="fa fa-clock-o"></i></button></td>
+        <div class="timepicker"></div>
+        <td><input type="text" name="TimeTo[]" class="form-control item_name" /></td>
+      </tr>
      </table>
      <div><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></div>
      <div align="center">
@@ -70,6 +83,19 @@ function fill_unit_select_box2($connect)
  </body>
 </html>
 
+<script src="jquery-3.6.2.min.js"></script>
+<script src="jquery-ui.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#datepicker').datepicker({
+            dateFormat: "dd-mm-yy", 
+            changeMonth: true
+        });
+    });
+</script>
+
+
 <script>
 $(document).ready(function(){
  
@@ -79,7 +105,7 @@ $(document).ready(function(){
   
   html += '<td><select name="empID[]" class="form-control item_unit"><option value="">Select ID</option><?php echo fill_unit_select_box($connect); ?></select></td>';
   html += '<td><select name="shiftID[]" class="form-control item_unit"><option value="">Select Shift</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
-  html += '<td><input type="date" name="Date[]" class="form-control item_name" /></td>';
+  html += '<td><input type="text" name="Datepicker[]" id="datepicker" class="form-control item_name" /></td>';
   html += '<td><input type="text" name="Time[]" class="form-control item_name" /></td>';
   html += '<td><input type="text" name="TimeTo[]" class="form-control item_name" /></td>';
   html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
@@ -148,4 +174,6 @@ $(document).ready(function(){
  
 });
 </script>
+
+
 
