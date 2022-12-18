@@ -1,39 +1,49 @@
 <?php 
 
-$conn = mysqli_connect("localhost", "root", "", "jbl");
+$conn = mysqli_connect("localhost", "root", "", "project");
 
 ?>
-
 <?php
-//index.php
 
-$connect = new PDO("mysql:host=localhost;dbname=jbl", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=project", "root", "");
 function fill_unit_select_box($connect)
 { 
  $output = '';
+ $query = "SELECT * FROM designation ORDER BY code ASC";
+ $statement = $connect->prepare($query);
+ $statement->execute();
+ $result = $statement->fetchAll();
+ foreach($result as $row)
+ {
+  $output .= '<option value="'.$row["title"].'">'.$row["title"].'</option>';
+ }
+ return $output;
+}
+function fill_unit_select_box2($connect)
+{ 
+ $output2 = '';
  $query = "SELECT * FROM cell ORDER BY cell_code ASC";
  $statement = $connect->prepare($query);
  $statement->execute();
  $result = $statement->fetchAll();
  foreach($result as $row)
  {
-  $output .= '<option value="'.$row["cell_code"].'">'.$row["cell_code"].'</option>';
+  $output2 .= '<option value="'.$row["cell_code"].'">'.$row["cell_code"].'</option>';
  }
- return $output;
+ return $output2;
 }
-
-function fill_unit_select_box2($connect)
+function fill_unit_select_box3($connect)
 { 
- $output2 = '';
- $query = "SELECT * FROM employee ORDER BY code ASC";
+ $output3 = '';
+ $query = "SELECT * FROM user";
  $statement = $connect->prepare($query);
  $statement->execute();
  $result = $statement->fetchAll();
  foreach($result as $row)
  {
-  $output2 .= '<option value="'.$row["code"].'">'.$row["code"].'</option>';
+  $output3 .= '<option value="'.$row["usertype"].'">'.$row["usertype"].'</option>';
  }
- return $output2;
+ return $output3;
 }
 
 ?>
@@ -91,8 +101,7 @@ function fill_unit_select_box2($connect)
                     <tr>
                         <th>ID</th>
                         <th>Employee Name</th>
-                        <th>Designation</th>
-                        <th>Code</th>
+                        <th>Designation</th> 
                         <th>Cell</th>
                         <th>Edit Info</th>
 
@@ -110,11 +119,11 @@ function fill_unit_select_box2($connect)
                             {
                                 ?>
                                 <tr>
-                                    <td><?= $post['id'] ?></td>
+                                    <td><?= $post['empID'] ?></td>
                                     <td><?= $post['name'] ?></td>
                                     <td><?= $post['designation'] ?></td>
                                     <td>
-                                    <?= $post['code'] ?>
+                                    <?= $post['cell-ID'] ?>
                                     </td>
                                     <td></td>
                                     <td>
@@ -152,19 +161,19 @@ function fill_unit_select_box2($connect)
   <script>
 $(document).ready(function(){
  
- $(document).on('click', '.add', function(){
+    $(document).on('click', '.add', function(){
   var html = '';
   html += '<tr>';
-  html += '<td><input type="text" name="empID[]" class="form-control" /></td>';
-  html += '<td><input type="text" name="name[]" class="form-control" /></td>';
-  html += '<td><select name="code[]" class="form-control item_unit"><option value="">Select ID</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
-  html += '<td><select name="cell_code[]" class="form-control item_unit"><option value="">Select ID</option><?php echo fill_unit_select_box($connect); ?></select></td>';
-  
+  html += '<td><input type="text" name="empID[]" class="form-control empID" /></td>';
+  html += '<td><input type="text" name="name[]" class="form-control name" /></td>';
+  html += '<td><select name="designation[]" class="form-control designation"><option value="">Select Designation</option><?php echo fill_unit_select_box($connect); ?></select></td>';
+  html += '<td><select name="cell[]" class="form-control cell"><option value="">Cell Code</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
+  html += '<td><select name="usertype[]" class="form-control usertype"><option value="">Select Usertype</option><?php echo fill_unit_select_box3($connect); ?></select></td>';
   html += '<td><input type="password" name="password[]" class="form-control" placeholder="0123456" /></td>';
-  
+  html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
   $('#item_table').append(html);
  });
- 
+  
  $(document).on('click', '.remove', function(){  
   $(this).closest('tr').remove();
  });
@@ -188,7 +197,7 @@ $(document).ready(function(){
   if(error == '')
   {
    $.ajax({
-    url:"insert.php",
+    url:"emp_insert.php",
     method:"POST",
     data:form_data,
     success:function(data)
