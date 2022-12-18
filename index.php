@@ -64,13 +64,13 @@ function fill_unit_select_box2($connect)
       
       </tr>
       <tr>
-      <td><select name="empID[]" class="form-control item_unit"><option value="">Select ID</option></select></td>
-        <td><select name="shiftID[]" class="form-control item_unit"><option value="">Select Shift</option></select></td>
-        <td><input type="text" name="Datepicker[]" id="datepicker" class="form-control item_name" /></td>
-      
+      <td><select name="empID[]" class="form-control"><option value="">Select ID</option></select></td>
+        <td><select name="shiftID[]" class="form-control"><option value="">Select Shift</option></select></td>
+        <td><input type="text" name="Datepicker[]" id="datepicker" class="form-control" /></td>
         <td><input id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"  onclick="showpickers('timepkr',12)" ><i class="fa fa-clock-o"></i></button></td>
         <div class="timepicker"></div>
-        <td><input type="text" name="TimeTo[]" class="form-control item_name" /></td>
+        <td><input id="timepkr1" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"  onclick="showpickers1('timepkr',12)" ><i class="fa fa-clock-o"></i></button></td>
+        <div class="timepicker1"></div>
       </tr>
      </table>
      <div><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></div>
@@ -103,12 +103,20 @@ $(document).ready(function(){
   var html = '';
   html += '<tr>';
   
-  html += '<td><select name="empID[]" class="form-control item_unit"><option value="">Select ID</option><?php echo fill_unit_select_box($connect); ?></select></td>';
-  html += '<td><select name="shiftID[]" class="form-control item_unit"><option value="">Select Shift</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
-  html += '<td><input type="text" name="Datepicker[]" id="datepicker" class="form-control item_name" /></td>';
-  html += '<td><input type="text" name="Time[]" class="form-control item_name" /></td>';
-  html += '<td><input type="text" name="TimeTo[]" class="form-control item_name" /></td>';
-  html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+  html += '<td><select name="empID[]" class="form-control"><option value="">Select ID</option><?php echo fill_unit_select_box($connect); ?></select></td>';
+  html += '<td><select name="shiftID[]" class="form-control"><option value="">Select Shift</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
+  html += '<td><input type="text" name="Datepicker[]" id="datepicker" class="form-control" /></td>';
+  html += '<td><input type="text" id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"><i class="fa fa-clock-o"></i></button></td>';
+  html += '<td><input type="text" id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"><i class="fa fa-clock-o"></i></button></td></tr>';
+
+  $(document).ready(function(){
+        $('#datepicker').datepicker({
+            dateFormat: "dd-mm-yy", 
+            changeMonth: true
+        });
+    });
+
+
   $('#item_table').append(html);
  });
  
@@ -175,5 +183,11 @@ $(document).ready(function(){
 });
 </script>
 
-
-
+<script>
+    $(document).ready(function(){
+        $('#datepicker').datepicker({
+            dateFormat: "dd-mm-yy", 
+            changeMonth: true
+        });
+    });
+</script>
