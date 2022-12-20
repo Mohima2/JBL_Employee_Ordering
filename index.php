@@ -69,8 +69,8 @@ function fill_unit_select_box2($connect)
         <td><input type="text" name="Datepicker[]" id="datepicker" class="form-control" /></td>
         <td><input id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"  onclick="showpickers('timepkr',12)" ><i class="fa fa-clock-o"></i></button></td>
         <div class="timepicker"></div>
-        <td><input id="timepkr1" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"  onclick="showpickers1('timepkr',12)" ><i class="fa fa-clock-o"></i></button></td>
-        <div class="timepicker1"></div>
+        <td><input type="time" name="mytime" id="mytime"></td>
+        
       </tr>
      </table>
      <div><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></div>
