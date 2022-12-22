@@ -66,7 +66,7 @@ function fill_unit_select_box2($connect)
       <tr>
       <td><select name="empID[]" class="form-control"><option value="">Select ID</option></select></td>
         <td><select name="shiftID[]" class="form-control"><option value="">Select Shift</option></select></td>
-        <td><input type="text" name="Datepicker[]" id="datepicker" class="form-control" /></td>
+        <td><input type="text" name="Datepicker[]" id="datepicker" class="form-control" autocomplete="off" /></td>
         <td><input id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"  onclick="showpickers('timepkr',12)" ><i class="fa fa-clock-o"></i></button></td>
         <div class="timepicker"></div>
         <td><input type="time" name="mytime" id="mytime"></td>
@@ -105,19 +105,16 @@ $(document).ready(function(){
   
   html += '<td><select name="empID[]" class="form-control"><option value="">Select ID</option><?php echo fill_unit_select_box($connect); ?></select></td>';
   html += '<td><select name="shiftID[]" class="form-control"><option value="">Select Shift</option><?php echo fill_unit_select_box2($connect); ?></select></td>';
-  html += '<td><input type="text" name="Datepicker[]" id="datepicker" class="form-control" /></td>';
+  html += '<td><input type="text" name="Datepicker[]"  class="form-control datepicker" autocomplete="off" /></td>';
   html += '<td><input type="text" id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"><i class="fa fa-clock-o"></i></button></td>';
   html += '<td><input type="text" id="timepkr" style="width: 100px; float: left" class="form-control" placeholder="HH:MM" /><button class="btn btn-primary"><i class="fa fa-clock-o"></i></button></td></tr>';
 
-  $(document).ready(function(){
-        $('#datepicker').datepicker({
+
+  $('#item_table').append(html);
+  $('.datepicker').datepicker({
             dateFormat: "dd-mm-yy", 
             changeMonth: true
         });
-    });
-
-
-  $('#item_table').append(html);
  });
  
  $(document).on('click', '.remove', function(){  
